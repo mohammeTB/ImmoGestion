@@ -11,12 +11,12 @@ return new class extends Migration
         Schema::create('paiements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('reservation_id')->constrained('reservations')->cascadeOnDelete();
+            $table->string('transaction_id', 255)->nullable()->unique();
             $table->decimal('montant', 10, 2);
             $table->enum('methode', ['carte', 'paypal', 'stripe', 'autre']);
             $table->enum('statut', ['en_attente', 'paye', 'echoue', 'rembourse'])->default('en_attente');
-            $table->string('transaction_id', 255)->nullable();
             $table->string('facture_url', 255)->nullable();
-            $table->timestamp('paye_le')->nullable();
+            $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
     }
