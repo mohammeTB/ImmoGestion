@@ -1,19 +1,22 @@
 <?php
 
-use App\Http\Controllers\AdminAuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::post('/admin/login', [AdminAuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [UserController::class, 'register']);
 
-Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-    Route::post('/admin/logout', [AdminAuthController::class, 'logout']);
-    Route::get('/user', function (Request $request) {
-    return $request->user();});
-
-    // --- مهام Yacine المضافة ---
-    Route::get('/admin/users', [AdminAuthController::class, 'index']); // عرض قائمة المستخدمين
-    Route::post('/admin/users/{user}/toggle-status', [AdminAuthController::class, 'toggleStatus']);
+Route::middleware('auth:sanctum')->group(function(){
+    Route::post('/logout',[AuthController::class, 'logout']);
+    Route::prefix('notifications')->group(function(){
+        Route::get('/',[NotificationController::class, 'all']);
+        Route::get('/unread',[NotificationController::class, 'unread']);
+        Route::post('/{id}/read',[NotificationController::class, 'markAsRead']);
+        Route::post('/read-all',[NotificationController::class, 'markAllAsRead']);
+        Route::delete('/{id}',[NotificationController::class, 'deleteOne']);
+        Route::delete('/',[NotificationController::class, 'deleteAll']);
+    });
 });
-

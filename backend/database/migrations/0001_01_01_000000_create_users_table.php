@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->enum('role', ['locataire', 'proprietaire', 'admin'])->default('locataire');
             $table->string('email', 100)->unique();
-            $table->string('phone', 20)->nullable();
+            $table->string('phone', 20)->unique()->nullable();
             $table->string('photo', 255)->nullable();
             $table->string('password', 255);
             $table->string('status')->default('active');
