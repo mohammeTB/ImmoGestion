@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('appartement_id')->constrained('appartements')->cascadeOnDelete();
             $table->string('image_url', 255);
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
         });
     }
 

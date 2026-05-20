@@ -12,12 +12,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('appartement_id')->constrained('appartements')->cascadeOnDelete();
             $table->foreignId('locataire_id')->constrained('users')->cascadeOnDelete();
-            $table->date('date_debut');
-            $table->date('date_fin');
-            $table->unsignedTinyInteger('nb_personnes');
-            $table->unsignedTinyInteger('nb_nuits');
-            $table->enum('statut', ['en_attente', 'acceptee', 'refusee', 'annulee', 'terminee'])->default('en_attente');
-            $table->decimal('prix_total', 10, 2);
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->unsignedTinyInteger('nb_people');
+            $table->enum('status', ['pending', 'accepted', 'failed', 'canceled', 'completed'])->default('pending');
+            $table->decimal('total_price', 10, 2);
+            $table->decimal('platform_fee', 10, 2)->default(0);
+            $table->decimal('proprietaire_amount', 10, 2)->default(0);
             $table->enum('payment_status', [
                 'pending',
                 'paid',

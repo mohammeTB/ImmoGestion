@@ -8,18 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('disponibilites', function (Blueprint $table) {
+        Schema::create('notes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('reservation_id')->constrained('reservations')->cascadeOnDelete();
             $table->foreignId('appartement_id')->constrained('appartements')->cascadeOnDelete();
-            $table->date('date_disponible');
-            $table->boolean('disponible')->default(true);
+            $table->foreignId('locataire_id')->constrained('users')->cascadeOnDelete();
+            $table->tinyInteger('rating')->unsigned()->comment('Note entre 1 et 5');
+            $table->text('comment')->nullable();
             $table->timestamps();
-            $table->unique(['appartement_id','date_disponible']);
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('disponibilites');
+        Schema::dropIfExists('avis');
     }
 };

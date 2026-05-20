@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('locataire_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('appartement_id')->constrained('appartements')->cascadeOnDelete();
-            $table->timestamp('created_at')->useCurrent();
             $table->unique(['locataire_id', 'appartement_id']);
+            $table->timestamps();
         });
     }
 

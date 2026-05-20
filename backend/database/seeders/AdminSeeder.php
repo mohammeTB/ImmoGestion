@@ -21,5 +21,21 @@ class AdminSeeder extends Seeder
                 'password' => 'admin81',
             ]
         );
+        User::updateOrCreate(
+            ['email' => 'locataire@locataire.com'],
+            [
+                'name' => 'ghandour',
+                'role' => 'locataire',
+                'password' => 'locataire81',
+            ]
+        );
+        User::updateOrCreate(
+            ['email' => 'proprietaire@proprietaire.com'],
+            [
+                'name' => 'idrissi',
+                'role' => 'proprietaire',
+                'password' => 'proprietaire81',
+            ]
+        );
     }
 }

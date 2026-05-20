@@ -12,9 +12,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('reservation_id')->constrained('reservations')->cascadeOnDelete();
             $table->string('transaction_id', 255)->nullable()->unique();
-            $table->decimal('montant', 10, 2);
-            $table->enum('methode', ['carte', 'paypal', 'stripe', 'autre']);
-            $table->enum('statut', ['en_attente', 'paye', 'echoue', 'rembourse'])->default('en_attente');
+            $table->decimal('price', 10, 2);
+            $table->enum('type', ['carte', 'paypal', 'stripe', 'autre']);
+            $table->enum('status', ['pending', 'paid', 'failed'])->default('pending');
             $table->string('facture_url', 255)->nullable();
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reservation;
 use App\Models\User;
 use App\Notifications\AdminNotification;
 use Illuminate\Http\Request;
@@ -36,5 +37,29 @@ class UserController extends Controller
             'user' => $user,
             'message' => "Inscription avec succès",
         ]);
+    }
+    public function profile(Request $request){
+        $user = $request->user();
+        $profile = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'photo' => $user->photo,
+            'role' => $user->role,
+            'status' => $user->status,
+        ];
+        if($user->role === 'proprietaire'){ 
+            $profile['nb_appartements'] = $user->appartements()->count();
+            $profile['revenus_total'] = 
+                Reservation::where('status', 'completed')
+                ->whereHas('appartement', fn($q) => 
+                    $q->where('proprietaire_id', $user->id)
+                )
+                ->sum('proprietaire_amount');
+        }
+        if($user->role === 'locataire'){
+            $profile['nb_reservations'] = $user->reservations()->count();
+        }
+        return response()->json(['profile' => $profile]);
     }
 }
