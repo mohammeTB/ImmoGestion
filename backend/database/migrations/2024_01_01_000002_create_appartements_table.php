@@ -18,13 +18,18 @@ return new class extends Migration
             $table->string('address', 255)->nullable();
             $table->decimal('price', 10, 2);
             $table->integer('capacity');
+            $table->enum('status', ['pending','active','inactive','suspended','rejected'])
+                ->default('pending');
             $table->enum('type', ['appartement', 'villa', 'studio', 'maison', 'chambre']);
             $table->boolean('wifi')->default(false);
             $table->boolean('piscine')->default(false);
             $table->boolean('parking')->default(false);
             $table->boolean('climatisation')->default(false);
             $table->boolean('animals')->default(false);
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('paiements', function (Blueprint $table) {
+        Schema::create('paiments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('reservation_id')->constrained('reservations')->cascadeOnDelete();
             $table->string('transaction_id', 255)->nullable()->unique();
@@ -23,6 +23,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('paiements');
+        Schema::dropIfExists('paiments');
     }
 };

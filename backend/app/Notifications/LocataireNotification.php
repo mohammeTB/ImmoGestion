@@ -7,19 +7,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AdminNotification extends Notification
+class LocataireNotification extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public $inf;
-    public $type;
-    public function __construct($inf,$type)
+    protected $type;
+    protected $inf;
+    protected $msg;
+    public function __construct($type, $inf=null, $msg=null)
     {
-        $this->inf = $inf;
         $this->type = $type;
+        $this->inf = $inf;
+        $this->inf = $msg;
     }
 
     /**
@@ -35,6 +37,13 @@ class AdminNotification extends Notification
     /**
      * Get the mail representation of the notification.
      */
+    public function toMail(object $notifiable): MailMessage
+    {
+        return (new MailMessage)
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
+    }
 
     /**
      * Get the array representation of the notification.
@@ -44,12 +53,8 @@ class AdminNotification extends Notification
     private function messages(): array
     {
         return [
-            'register' => 'Nouveau proprietaire inscrit',
-            'add_appartement' => 'Nouveau proprietaire veut ajouter un appartement',
-            'modify_appartement' => 'Le proprietaire veut modifier un appartement',
-            'reservation' => 'Nouvelle réservation créée',
-            'payment' => 'Paiement effectué',
-            'message' => 'Nouveau message reçu',
+            'accept_reservation' => 'Votre reservation a accepté par le proprietaire',
+            'refuse_reservation' => 'Votre reservation a refusé par le proprietaire',
         ];
     }
     public function toArray(object $notifiable): array

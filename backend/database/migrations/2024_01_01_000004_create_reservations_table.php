@@ -19,12 +19,6 @@ return new class extends Migration
             $table->decimal('total_price', 10, 2);
             $table->decimal('platform_fee', 10, 2)->default(0);
             $table->decimal('proprietaire_amount', 10, 2)->default(0);
-            $table->enum('payment_status', [
-                'pending',
-                'paid',
-                'failed',
-                'refunded'
-            ])->default('pending');
             $table->string('reference',50)->unique();
             $table->timestamps();
             $table->timestamp('confirmed_at')->nullable();

@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Appartement extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
+        'latitude',
+        'longitude',
         'proprietaire_id',
         'title',
         'description',
@@ -33,7 +37,7 @@ class Appartement extends Model
         return $this->belongsTo(User::class,'proprietaire_id');
     }
     public function images(){
-        return $this->hasMany(ImageAppartement::class,'appartement_id');
+        return $this->hasMany(ImagesAppartement::class,'appartement_id');
     } 
     public function reservations(){
         return $this->hasMany(Reservation::class);
