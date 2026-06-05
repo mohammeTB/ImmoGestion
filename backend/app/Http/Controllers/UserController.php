@@ -15,7 +15,7 @@ class UserController extends Controller
             'name' => 'required|string|max:100|min:2',
             'email' => 'required|email|unique:users,email',
             'phone' => 'nullable|string|min:6|max:14|unique:users,phone',
-            'photo' => 'nullable|image|mimes:png,jpg,jpeg',
+            'photo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'password' => 'required|min:4',
             'role' => 'required|in:locataire,proprietaire',
         ]);
@@ -61,5 +61,23 @@ class UserController extends Controller
             $profile['nb_reservations'] = $user->reservations()->count();
         }
         return response()->json(['profile' => $profile]);
+    }
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+        $validated = $request->validate([
+            'name' => 'required|string|max:100|min:2',
+            'email' => 'required|email|unique:users,email,'.$user->email,
+            'phone' => 'nullable|string|min:6|max:14|unique:users,phone',
+            'photo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+            'password' => 'required|min:4',
+        ]);
+        if($user->role === 'admin'){
+            return ;
+        }
+        if($request->hasFile('photo')){
+            $path = $request->file('photo')->store('users','public');
+            $validated['photo'] = $path;
+        }
     }
 }
